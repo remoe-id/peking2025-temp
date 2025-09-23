@@ -1,7 +1,5 @@
 ---
 import { Link } from 'accessible-astro-components'
-import { Image } from 'astro:assets'
-import logo from '../assets/img/logo.svg'
 
 /**
  * Logo Component
@@ -19,7 +17,12 @@ interface Props {
 const { loading = 'eager' }: Props = Astro.props
 ---
 
-<Link href="/" class="flex items-center gap-2">
-  <Image src={logo} alt="Accessible Astro Logo" width="47" height="37" loading={loading} />
-  <span class="font-bold">Accessible Astro</span>
+<Link href="/" class="flex items-center gap-4">
+  <img
+    src="https://static.igem.wiki/teams/5870/icon/team-logo.webp"
+    alt="Peking"
+    width="65"
+    loading={loading}
+  />
+  <span class="font-bold">Peking</span>
 </Link>

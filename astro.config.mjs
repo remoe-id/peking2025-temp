@@ -7,11 +7,13 @@ import { fileURLToPath } from 'url'
 
 import sitemap from '@astrojs/sitemap';
 
+import react from '@astrojs/react';
+
 // https://astro.build/config
 export default defineConfig({
   compressHTML: true,
   site: 'https://accessible-astro-starter.incluud.dev',
-  integrations: [mdx(), icon(), compress(), sitemap()],
+  integrations: [mdx(), icon(), compress(), sitemap(), react()],
   vite: {
     css: {
       preprocessorOptions: {

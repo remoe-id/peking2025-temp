@@ -2,6 +2,8 @@
 import { Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
+import Lottie from 'lottie-react'
+import animationData from '../assets/animate/logo-dynamic.json'
 
 /**
  * Hero Component
@@ -20,35 +22,39 @@ const { src = '/astronaut-hero-img.webp' }: Props = Astro.props
 
 <section class="hero my-24">
   <div class="container">
-    <div class="grid grid-cols-1 items-center gap-24 lg:grid-cols-2">
+    <div class="grid grid-cols-2 items-center gap-24">
+      <Lottie
+        className="block w-[70vw] max-w-[800px] h-auto ml-[-80px] lg:ml-[-100px]"
+        animationData={animationData}
+        loop={true}
+        autoplay={true}
+        client:only="react"
+      /> 
       <div class="flex flex-col items-center gap-8 md:items-start">
-        <h1 class="text-center text-6xl md:text-left lg:text-8xl">
-          <slot><span class="text-gradient">Accessible</span> Starter for Astro</slot>
+        <h1 class="text-center text-6xl md:text-left lg:text-9xl">
+          <slot><span class="text-gradient">Hp Busters</slot>
         </h1>
         <div class="flex flex-col gap-3 min-[500px]:flex-row">
           <Link
-            href="https://github.com/incluud/accessible-astro-starter"
+            href="/description"
             isButton
-            type="primary"
+            type="success"
             animateOnHover
             animationType="boop"
           >
-            <Icon aria-hidden="true" name="lucide:star" size="1.5rem" />
-            Star on GitHub
+            Project Discription
           </Link>
-          <Link
-            href="https://accessible-astro.incluud.dev/"
+          <!-- <Link
+            href="/team/members"
             isButton
             type="secondary"
             animateOnHover
             animationType="boop"
           >
-            <Icon aria-hidden="true" name="lucide:bookmark" size="1.5rem" />
-            Read the docs
-          </Link>
+            Team Members
+          </Link> -->
         </div>
-      </div>
-      <Image class="hidden lg:block" src={src} alt="" decoding="async" width={800} height={600} loading="eager" />
+      </div>     
     </div>
   </div>
 </section>
@@ -56,16 +62,19 @@ const { src = '/astronaut-hero-img.webp' }: Props = Astro.props
 <style lang="scss">
   h1 {
     text-wrap: unset;
+    font-family: 'PoetsenOne', sans-serif;
   }
 
   .text-gradient {
     background: linear-gradient(
-      315deg,
-      light-dark(var(--color-primary-300), var(--color-secondary-100)) 25%,
-      light-dark(var(--color-secondary-300), var(--color-primary-200))
-    );
-    background-clip: border-box;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+    45deg,
+    #288f94, 
+    #4fbdc2,
+    #ffe1c0 80%,
+
+  );
+  background-clip: border-box;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 </style>

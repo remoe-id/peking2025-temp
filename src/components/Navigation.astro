@@ -35,7 +35,7 @@ import Logo from './Logo.astro'
     if (!mainNav) return
 
     const mainMenu = mainNav.querySelector('ul') as HTMLUListElement | null
-    const dropdownMenus = [...document.querySelectorAll('.has-dropdown button')] as HTMLButtonElement[]
+    const dropdownMenus = [...document.querySelectorAll('.has-dropdown')] as HTMLElement[]
 
     // functions
     const setActiveMenuItem = (): void => {
@@ -62,40 +62,60 @@ import Logo from './Logo.astro'
       return elementBounds.right > (window.innerWidth || document.documentElement.clientWidth)
     }
 
-    const openDropdownMenu = (dropdownMenu: HTMLButtonElement): void => {
-      const dropdownList = dropdownMenu.parentNode?.querySelector('ul') as HTMLUListElement | null
-      if (!dropdownList) return
+    const openDropdownMenu = (dropdown: HTMLElement): void => {
+      const button = dropdown.querySelector('button') as HTMLButtonElement | null
+      const list = dropdown.querySelector('ul') as HTMLUListElement | null
+      if (!button || !list) return
 
-      dropdownMenu.classList.add('show')
-      dropdownMenu.setAttribute('aria-expanded', 'true')
+      button.classList.add('show')
+      button.setAttribute('aria-expanded', 'true')
+      list.classList.add('show')
 
-      if (isOutOfViewport(dropdownList)) {
-        dropdownList.style.left = 'auto'
+      if (isOutOfViewport(list)) {
+        list.style.left = 'auto'
       }
     }
 
-    const closeDropdownMenu = (dropdownMenu: HTMLButtonElement): void => {
-      dropdownMenu.classList.remove('show')
-      dropdownMenu.setAttribute('aria-expanded', 'false')
+    const closeDropdownMenu = (dropdown: HTMLElement): void => {
+      const button = dropdown.querySelector('button') as HTMLButtonElement | null
+      const list = dropdown.querySelector('ul') as HTMLUListElement | null
+      if (!button || !list) return
+
+      button.classList.remove('show')
+      button.setAttribute('aria-expanded', 'false')
+      list.classList.remove('show')
     }
 
     const closeAllDropdownMenus = (): void => {
-      for (let i = 0; i < dropdownMenus.length; i++) {
-        closeDropdownMenu(dropdownMenus[i])
-      }
+      dropdownMenus.forEach((dropdown) => closeDropdownMenu(dropdown))
     }
 
-    const toggleDropdownMenu = (event: MouseEvent): void => {
-      const target = event.target as HTMLButtonElement
-      if (target.getAttribute('aria-expanded') === 'false') {
-        closeAllDropdownMenus()
-        openDropdownMenu(target)
-      } else {
-        closeDropdownMenu(target)
-      }
-    }
+    dropdownMenus.forEach((dropdown) => {
+      let closeTimeout: number | null = null
+      const button = dropdown.querySelector('button') as HTMLButtonElement | null
+      const list = dropdown.querySelector('ul') as HTMLUListElement | null
+      if (!button || !list) return
 
-    // execution
+      const openMenu = () => {
+        if (closeTimeout) {
+          clearTimeout(closeTimeout)
+          closeTimeout = null
+        }
+        openDropdownMenu(dropdown)
+      }
+
+      const closeMenu = () => {
+        closeTimeout = window.setTimeout(() => {
+          closeDropdownMenu(dropdown)
+        }, 300)
+      }
+
+      button.addEventListener('mouseenter', openMenu)
+      button.addEventListener('mouseleave', closeMenu)
+      list.addEventListener('mouseenter', openMenu)
+      list.addEventListener('mouseleave', closeMenu)
+    })
+
     mainMenu &&
       mainMenu.addEventListener('keydown', (event: KeyboardEvent) => {
         const element = event.target as Element
@@ -135,13 +155,13 @@ import Logo from './Logo.astro'
 
             if (key === 'ArrowDown') {
               event.preventDefault()
-              openDropdownMenu(currentDropdownMenu)
+              openDropdownMenu(currentDropdownMenu.parentElement as HTMLElement)
               targetItem = firstDropdownItem
             }
           }
 
           if (key === 'Escape') {
-            closeDropdownMenu(currentDropdownMenu)
+            closeDropdownMenu(currentDropdownMenu.parentElement as HTMLElement)
           }
         }
 
@@ -153,22 +173,14 @@ import Logo from './Logo.astro'
 
             if (key === 'ArrowDown') {
               event.preventDefault()
-
-              if (dropdownMenuItems.indexOf(currentDropdownMenuItem) === dropdownMenuItems.length - 1) {
-                targetItem = dropdownMenuItems[0]
-              } else {
-                targetItem = dropdownMenuItems[currentIndex + 1]
-              }
+              targetItem =
+                currentIndex === dropdownMenuItems.length - 1 ? dropdownMenuItems[0] : dropdownMenuItems[currentIndex + 1]
             }
 
             if (key === 'ArrowUp') {
               event.preventDefault()
-
-              if (dropdownMenuItems.indexOf(currentDropdownMenuItem) === 0) {
-                targetItem = dropdownMenuItems[dropdownMenuItems.length - 1]
-              } else {
-                targetItem = dropdownMenuItems[currentIndex - 1]
-              }
+              targetItem =
+                currentIndex === 0 ? dropdownMenuItems[dropdownMenuItems.length - 1] : dropdownMenuItems[currentIndex - 1]
             }
 
             if (key === 'Escape') {
@@ -182,8 +194,8 @@ import Logo from './Logo.astro'
             if (key === 'Tab') {
               const currentDropdownMenu = currentDropdownList.previousElementSibling as HTMLButtonElement | null
               if (currentDropdownMenu) {
-                if (dropdownMenuItems.indexOf(currentDropdownMenuItem) === dropdownMenuItems.length - 1) {
-                  closeDropdownMenu(currentDropdownMenu)
+                if (currentIndex === dropdownMenuItems.length - 1) {
+                  closeDropdownMenu(currentDropdownMenu.parentElement as HTMLElement)
                 }
               }
             }
@@ -192,15 +204,8 @@ import Logo from './Logo.astro'
 
         if (targetItem) {
           const focusableElement = targetItem.querySelector('a, button, input') as HTMLElement | null
-          if (focusableElement) {
-            focusableElement.focus()
-          }
+          if (focusableElement) focusableElement.focus()
         }
-      })
-
-    dropdownMenus &&
-      dropdownMenus.forEach((dropdownMenu) => {
-        dropdownMenu.addEventListener('click', toggleDropdownMenu as EventListener)
       })
 
     setActiveMenuItem()
@@ -213,11 +218,13 @@ import Logo from './Logo.astro'
   })
 </script>
 
+
 <style lang="scss" is:global>
   @use '../assets/scss/base/mixins' as *;
   @use '../assets/scss/base/breakpoint' as *;
 
   #main-navigation {
+    background-color: var(--background-color);
     > .container {
       display: flex;
       flex-wrap: wrap;
@@ -287,8 +294,8 @@ import Logo from './Logo.astro'
         .has-dropdown > button:hover,
         .has-dropdown > button:focus-visible {
           text-decoration: underline;
-          text-decoration-style: wavy;
-          text-decoration-thickness: 1px;
+          text-decoration-style: solid;
+          text-decoration-thickness: 2px;
           text-underline-offset: 7px;
         }
 
@@ -350,6 +357,8 @@ import Logo from './Logo.astro'
         margin-block-start: -1px;
 
         svg {
+          inline-size: 1em;
+          block-size: 1em;
           transition: all var(--animation-speed-instant) var(--cubic-bezier);
         }
 
@@ -386,15 +395,11 @@ import Logo from './Logo.astro'
         }
       }
 
-      > button.show ~ ul {
+      &:hover > ul,
+      ul:hover {
         display: flex;
         translate: 0;
         opacity: 1;
-
-        @starting-style {
-          translate: 0 1rem;
-          opacity: 0;
-        }
       }
     }
 

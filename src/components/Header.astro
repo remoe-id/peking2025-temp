@@ -13,51 +13,107 @@ import { Icon } from 'astro-icon/components'
 <header>
   <SkipLink />
   <Navigation>
-    <li class="menu-item">
-      <Link href="/">Home</Link>
-    </li>
-    <li class="menu-item">
-      <Link href="/blog/">Blog</Link>
-    </li>
-    <li class="menu-item">
-      <Link href="/portfolio/">Portfolio</Link>
-    </li>
     <li class="menu-item has-dropdown">
       <button aria-haspopup="true" aria-expanded="false">
-        Theme features
+        Project
         <Icon aria-hidden="true" name="lucide:chevron-down" size="32" />
       </button>
       <ul class="dropdown-menu">
         <li class="submenu-item">
-          <Link href="/accessibility-statement">Accessibility statement</Link>
+          <Link href="/design">Design</Link>
         </li>
         <li class="submenu-item">
-          <Link href="/accessible-components">Accessible components</Link>
+          <Link href="/description">Description</Link>
+        </li>
+        <li>
+          <Link href="/engineering">Engineering</Link>
+        </li>
+        <li>
+          <Link href="/contributions">Contributions</Link>
+        </li>
+      </ul>
+    </li>
+    <li class="menu-item has-dropdown">
+      <button aria-haspopup="true" aria-expanded="false">
+        Wet Lab
+        <Icon aria-hidden="true" name="lucide:chevron-down" size="32" />
+      </button>
+      <ul class="dropdown-menu">
+        <li class="submenu-item">
+          <Link href="/experiment">Experiment</Link>
         </li>
         <li class="submenu-item">
-          <Link href="/color-contrast-checker">Color contrast checker</Link>
+          <Link href="/measurement">Measurement</Link>
+        </li>
+        <li>
+          <Link href="/results">Results</Link>
+        </li>
+        <li>
+          <Link href="/notebook">Notebook</Link>
+        </li>
+        <li>
+          <Link href="/parts">Parts</Link>
+        </li>
+        <li>
+          <Link href="/our-journey">Our Journey</Link>
+        </li>
+      </ul>
+    </li>
+    <li class="menu-item has-dropdown">
+      <button aria-haspopup="true" aria-expanded="false">
+        Dry Lab
+        <Icon aria-hidden="true" name="lucide:chevron-down" size="32" />
+      </button>
+      <ul class="dropdown-menu">
+        <li class="submenu-item">
+          <Link href="/model">Model</Link>
         </li>
         <li class="submenu-item">
-          <Link href="/markdown-page/">Markdown page</Link>
+          <Link href="/hardware">Hardware</Link>
+        </li>
+      </ul>
+    </li>
+    <li class="menu-item has-dropdown">
+      <button aria-haspopup="true" aria-expanded="false">
+        Human Practice
+        <Icon aria-hidden="true" name="lucide:chevron-down" size="32" />
+      </button>
+      <ul class="dropdown-menu">
+        <li class="submenu-item">
+          <Link href="/ihp">iHP</Link>
         </li>
         <li class="submenu-item">
-          <Link href="/mdx-page/">MDX page</Link>
-        </li>
-        <li class="submenu-item">
-          <Link href="/404-page">404 page</Link>
-        </li>
-        <li class="submenu-item">
-          <Link href="/sitemap">Sitemap</Link>
+          <Link href="/education">Education</Link>
         </li>
       </ul>
     </li>
     <li class="menu-item">
-      <Link href="/contact/">Contact</Link>
+      <Link href="/safety/">Safety</Link>
     </li>
-    <li class="menu-item highlight">
-      <Link href="https://accessible-astro.incluud.dev/">Docs </Link>
+    <li class="menu-item has-dropdown">
+      <button aria-haspopup="true" aria-expanded="false">
+        Team
+        <Icon aria-hidden="true" name="lucide:chevron-down" size="32" />
+      </button>
+      <ul class="dropdown-menu">
+        <li class="submenu-item">
+          <Link href="/design">Members</Link>
+        </li>
+        <li class="submenu-item">
+          <Link href="/description">Attributions</Link>
+        </li>
+        <li>
+          <Link href="/engineering">Sponsors</Link>
+        </li>
+        <li>
+          <Link href="/contributions">Special Thanks</Link>
+        </li>
+      </ul>
     </li>
-    <li class="menu-item type-icon animate-rotate">
+    <!-- <li class="menu-item highlight">
+      <Link href="/awards">Awards </Link>
+    </li> -->
+    <!-- <li class="menu-item type-icon animate-rotate">
       <Link href="https://github.com/incluud/accessible-astro-starter">
         <Icon aria-hidden="true" name="lucide:github" />
         <span class="sr-only">Go to the GitHub page</span>
@@ -68,7 +124,7 @@ import { Icon } from 'astro-icon/components'
         <Icon aria-hidden="true" name="lucide:moon" slot="light" />
         <Icon aria-hidden="true" name="lucide:sun" slot="dark" />
       </DarkMode>
-    </li>
+    </li> -->
   </Navigation>
 </header>
 
