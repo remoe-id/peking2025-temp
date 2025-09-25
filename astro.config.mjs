@@ -12,7 +12,7 @@ import react from '@astrojs/react';
 // https://astro.build/config
 export default defineConfig({
   compressHTML: true,
-  site: 'https://accessible-astro-starter.incluud.dev',
+  site: 'https://remoe-id.github.io/peking2025-temp/',
   integrations: [mdx(), icon(), compress(), sitemap(), react()],
   vite: {
     css: {
