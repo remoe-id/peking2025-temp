@@ -13,6 +13,7 @@ import react from '@astrojs/react';
 export default defineConfig({
   compressHTML: true,
   site: 'https://remoe-id.github.io/peking2025-temp/',
+  base: '/peking2025-temp/',
   integrations: [mdx(), icon(), compress(), sitemap(), react()],
   vite: {
     css: {

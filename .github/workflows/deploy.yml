@@ -21,6 +21,12 @@ jobs:
         uses: withastro/action@v3
         with:
           package-manager: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v2
+        with:
+          path: ./dist
+
 
   deploy:
     needs: build
